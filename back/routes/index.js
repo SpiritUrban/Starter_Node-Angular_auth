@@ -44,7 +44,9 @@ router.post('/api/v1/auth/login', async (req, res) => {
   if (!user) return res.json({ ok: false, msg: 'User not found!'});
   // if (userByEmail) return res.json({ ok: false, msg: 'Email is revoked!' });
   // if ok
-  if (user.password == password) res.json({ ok: true, msg: 'User loged!', token: newToken() });
+  const token = newToken()
+  await User.findOneAndUpdate({userName},{token})
+  if (user.password == password) return res.json({ ok: true, msg: 'User loged!', token });
 
   res.json({ ok: false, msg: 'User not loged!' });
 })
