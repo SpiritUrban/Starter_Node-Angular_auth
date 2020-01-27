@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/user')
 
-const guard = (req, res, next) => {
-  console.log(req.token)
-  if (req.token == '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!**********************') next()
+const  guard = async (req, res, next) => {
+  // console.log(req.token)
+  const user = await User.findOne({token: req.token});
+  if (user) {
+    req.user = user
+    next()
+  }
   else res.json('unauthorized')
 }
 
@@ -54,7 +58,8 @@ router.post('/api/v1/auth/login', async (req, res) => {
 
 router.get('/api/v1/all-data', [guard], (req, res) => {
   const result = {
-    ok: true
+    ok: true,
+    user: req.user
   }
   res.json(result)
 })

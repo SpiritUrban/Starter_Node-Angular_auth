@@ -30,7 +30,10 @@ export class LoginComponent implements OnInit {
       const userData = this.profileForm.value;
       const fromServer: any = await this.api.login(userData);
       alert(fromServer.msg)
-      if(fromServer.ok) this.router.navigateByUrl('/');
+      if(fromServer.ok) {
+        localStorage.setItem('token', fromServer.token);
+        this.router.navigateByUrl('/');
+    }
       console.log(fromServer)
     } catch (error) {
       console.warn(error);

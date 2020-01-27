@@ -31,7 +31,7 @@ app.use(cors());
 app.use(async (req, res, next) => { // home page
   // console.log('info: url = ', req.url)
   // req.url == '/' ? res.render('index', commonInfo(req)) : next()
-  req.token = req.headers.authorization.split(' ')[1]
+  req.token = (req.headers.authorization) ? req.headers.authorization.split(' ')[1] : null
   // console.log('****', req.token)
   next();
 });
