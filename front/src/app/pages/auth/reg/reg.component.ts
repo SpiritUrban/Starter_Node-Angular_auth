@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../../../services/api.service'
 @Component({
   selector: 'app-reg',
   templateUrl: './reg.component.html',
@@ -12,14 +13,22 @@ export class RegComponent implements OnInit {
     email: new FormControl('', [Validators.required]),
   });
 
-  constructor() { }
+  constructor(
+    private api: ApiService
+  ) { }
 
   ngOnInit() {
+    console.log(this.api.test())
   }
 
-  onSubmit() {
-    // TODO: Use EventEmitter with form value
-    console.warn(this.profileForm.value);
+  async onSubmit() {
+    try {
+      const userData = this.profileForm.value;
+      const fromServer: any = await this.api.register(userData);
+      console.log(fromServer)
+    } catch (error) {
+      console.warn(error);
+    }
   }
 
 }
