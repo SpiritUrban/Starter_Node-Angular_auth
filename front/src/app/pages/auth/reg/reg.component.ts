@@ -8,8 +8,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class RegComponent implements OnInit {
 
   profileForm = new FormGroup({
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
+    userName: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required]),
   });
 
   constructor() { }
