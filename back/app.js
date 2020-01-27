@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,7 +14,20 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-app.use(cors())
+app.use(cors());
+
+// app.use(jwt({
+//   secret: 'hello world !'
+// }));
+
+app.use(async (req, res, next) => { // home page
+  // console.log('info: url = ', req.url)
+  // req.url == '/' ? res.render('index', commonInfo(req)) : next()
+  req.token = req.headers.authorization.split(' ')[1]
+  // console.log('****', req.token)
+  next();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,12 +38,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
