@@ -16,8 +16,8 @@ export class MainComponent implements OnInit {
   }
 
   async getAllData(){
-    console.log(
-      await this.api.getAllData()
+    alert(
+      JSON.stringify(await this.api.getAllData())
     )
   }
 
