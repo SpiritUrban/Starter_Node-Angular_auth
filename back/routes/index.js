@@ -19,19 +19,36 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/api/v1/auth/register', async (req, res) => {
-  const { userName, email } = req.body;
+  const { userName, email, password } = req.body;
   // test userdata
-  if (!(userName && email)) return res.json({ ok: false, msg: 'Uncorrect user data!' });
+  if (!(userName && email && password)) return res.json({ ok: false, msg: 'Uncorrect user data!' });
   // test in db
   const userByName = await User.findOne({userName});
   const userByEmail = await User.findOne({email});
   if (userByName) return res.json({ ok: false, msg: 'Username is revoked!'});
   if (userByEmail) return res.json({ ok: false, msg: 'Email is revoked!' });
   // if ok
-  const newUser = new User({ userName, email });
+  const newUser = new User({ userName, email, password });
   newUser.save()
   res.json({ ok: true, msg: 'User created!' });
 })
+
+
+router.post('/api/v1/auth/login', async (req, res) => {
+  const { userName, email, password } = req.body;
+  // test userdata
+  if (!(userName && password)) return res.json({ ok: false, msg: 'Uncorrect user data!' });
+  // test in db
+  const user = await User.findOne({userName});
+  // const userByEmail = await User.findOne({email}); // for name or email
+  if (!user) return res.json({ ok: false, msg: 'User not found!'});
+  // if (userByEmail) return res.json({ ok: false, msg: 'Email is revoked!' });
+  // if ok
+  if (user.password == password) res.json({ ok: true, msg: 'User loged!', token: newToken() });
+
+  res.json({ ok: false, msg: 'User not loged!' });
+})
+
 
 router.get('/api/v1/all-data', [guard], (req, res) => {
   const result = {
@@ -39,5 +56,15 @@ router.get('/api/v1/all-data', [guard], (req, res) => {
   }
   res.json(result)
 })
+
+function newToken(){
+  let token = '';
+  const chars = '1234567890qwertyuiopasdfghjklzxcvbnm'
+  for (let i=0; i<20; i++ ) {
+    const i = Math.round(Math.random()*35);
+    token += chars[i]
+  }
+  return token
+}
 
 module.exports = router;

@@ -1,1 +1,57 @@
-<p>login works!</p>
+
+
+<div class="login card border-secondary mb-3" style="max-width: 20rem;">
+    <div class="card-header">Login</div>
+
+    <div class="card-body">
+
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <fieldset>
+                    <label class="control-label" for="fname">User Name:</label>
+                    <input 
+                    class="form-control" 
+                    id="fname" 
+                    type="text" 
+                    placeholder="Disabled input here..."
+                    formControlName="userName"
+                    >
+                </fieldset>
+            </div>
+<!-- 
+            <div class="form-group">
+                <fieldset>
+                    <label class="control-label" for="lname">Email:</label>
+                    <input 
+                    class="form-control" 
+                    id="lname" 
+                    type="text" 
+                    placeholder="Disabled input here..."
+                    formControlName="email"
+                    >
+                </fieldset>
+            </div> -->
+
+            <div class="form-group">
+                <fieldset>
+                    <label class="control-label" for="pwd">Password:</label>
+                    <input 
+                    class="form-control" 
+                    id="pwd" 
+                    type="text" 
+                    placeholder="Disabled input here..."
+                    formControlName="password"
+                    >
+                </fieldset>
+            </div>            
+        
+            <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+        
+        </form>
+
+
+
+        
+    </div>
+</div>
