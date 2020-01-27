@@ -8,6 +8,14 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
+// commect mongo
+const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost:27017/starter', {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+
 var app = express();
 
 // view engine setup

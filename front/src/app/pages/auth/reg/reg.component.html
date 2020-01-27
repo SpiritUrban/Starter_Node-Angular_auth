@@ -32,6 +32,19 @@
                     >
                 </fieldset>
             </div>
+
+            <div class="form-group">
+                <fieldset>
+                    <label class="control-label" for="pwd">Password:</label>
+                    <input 
+                    class="form-control" 
+                    id="pwd" 
+                    type="text" 
+                    placeholder="Disabled input here..."
+                    formControlName="password"
+                    >
+                </fieldset>
+            </div>            
         
             <button type="submit" [disabled]="!profileForm.valid">Submit</button>
         
